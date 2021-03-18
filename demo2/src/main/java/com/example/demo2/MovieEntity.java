@@ -1,5 +1,4 @@
-package domain;
-
+package com.example.demo2;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +8,6 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.schema.Relationship.Direction;
-
 
 @Node("Movie")
 public class MovieEntity {

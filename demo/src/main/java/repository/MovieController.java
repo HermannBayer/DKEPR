@@ -1,7 +1,10 @@
-package controller;
+package repository;
+
+
 
 import org.neo4j.driver.internal.shaded.reactor.core.publisher.Flux;
 import org.neo4j.driver.internal.shaded.reactor.core.publisher.Mono;
+import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import repository.MovieRepository;
 
 @RestController
 @RequestMapping("/movies")
@@ -38,7 +39,7 @@ public class MovieController {
 		return movieRepository.findOneByTitle(title);
 	}
 	
-	@DeleteMapping("/\{id\}")
+	@DeleteMapping("/{id}")
 	Mono<Void> delete(@PathVariable String id) {
 		return movieRepository.deleteById(id);
 	}

@@ -1,8 +1,9 @@
-package repository;
+package com.example.demo2;
 
-import org.neo4j.driver.internal.shaded.reactor.core.publisher.Mono;
+import java.util.List;
+
 import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
 
 public interface MovieRepository extends ReactiveNeo4jRepository<MovieEntity, String> {
-	Mono<MovieEntity> findOneByTitle(String title);
+	List<MovieEntity> findOneByTitle(String title);
 }

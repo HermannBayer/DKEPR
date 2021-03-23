@@ -44,7 +44,9 @@ class Controller {
     
     return repository.findById(id)
       .map(person -> {
-        person.setName(newPerson.getName());
+//        person.setName(newPerson.getName());
+        person.setFirstName(newPerson.getFirstName());
+        person.setLastName(newPerson.getLastName());
         person.setUser(newPerson.getUser());
         person.setPwd(newPerson.getPwd());
         return repository.save(person);

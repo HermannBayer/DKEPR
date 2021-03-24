@@ -2,6 +2,8 @@ package RegService;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,20 +28,20 @@ class Controller {
   }
   
 
-  @GetMapping("/people") 
+  @GetMapping("/people") // localhost:8080/people?user=fish&pwd=1234
   @ResponseBody
   public List<Person> login(
-    @RequestParam(required = false, name = "user") String name1, 
-    @RequestParam(required = false, name = "pwd") String name2) {
-	return repository.findByUserAndPwd(name1,name2);
+    @RequestParam(required = false, name = "user") String u, 
+    @RequestParam(required = false, name = "pwd") String p) {
+	return repository.findByUserAndPwd(u,p);
   }
 
-  @PostMapping("/people")
+  @PostMapping("/people") // localhost:8080/people {  "firstName" : "Laurence",  "lastName" : "Fishburne", "user" : "fish", "pwd" : "123"}
   Person newPerson(@RequestBody Person newPerson) {
     return repository.save(newPerson);
   }
 
-  @PutMapping("/people/{id}")
+  @PutMapping("/people/{id}") // localhost:8080/people/168 {  "firstName" : "James", "lastName" : "Thomson", "user" : "fish", "pwd" : "1234"}
   Person replacePerson(@RequestBody Person newPerson, @PathVariable Long id) {
     
     return repository.findById(id)
@@ -57,7 +59,7 @@ class Controller {
       });
   }
 
-  @DeleteMapping("/people/{id}")
+  @DeleteMapping("/people/{id}") // http://localhost:8080/people/170
   void deletePerson(@PathVariable Long id) {
     repository.deleteById(id);
   }

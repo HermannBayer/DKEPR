@@ -13,6 +13,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "people", path = "people")
 public interface PersonRepository extends PagingAndSortingRepository<Person, Long> {
 	  
-	  List<Person> findByUserAndPwd(@Param("user") String name1, @Param("pwd") String name2);
+	  List<Person> findByUserAndPwd(@Param("user") String u, @Param("pwd") String p);
+
+
 
 }

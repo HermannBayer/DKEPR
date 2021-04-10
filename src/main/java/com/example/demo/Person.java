@@ -4,11 +4,13 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.Relationship.Direction;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
+import static org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING;
 
 @Node
 public class Person {
@@ -36,7 +38,10 @@ public class Person {
 
     @Relationship(type = "FOLLOWS", direction = OUTGOING)
     private Set<Person> follows= new HashSet<>();
-
+/*
+    @Relationship(type = "FOLLOWS", direction = INCOMING)
+    private Set<Person> followedBy= new HashSet<>();
+*/
     public void addFollows(Person person){
         follows.add(person);
     }
@@ -84,4 +89,16 @@ public class Person {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+/*
+	public Set<Person> getFollowedBy() {
+		return followedBy;
+	}
+
+	public void setFollowedBy(Set<Person> followedBy) {
+		this.followedBy = followedBy;
+	}
+*/
+	public void setFollows(Set<Person> follows) {
+		this.follows = follows;
+	}
 }

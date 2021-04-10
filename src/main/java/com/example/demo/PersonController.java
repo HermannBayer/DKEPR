@@ -28,7 +28,12 @@ public class PersonController {
     public Person getFollows(@PathVariable long id){
         return  personRepository.findById(id).orElse(null);
     }
-
+/*
+    @GetMapping("/{id}/followedBy")
+    public Person getFollowedBy(@PathVariable long id){
+        return  personRepository.findById(id).orElse(null);
+    }
+*/
     @GetMapping("/login")
     @ResponseBody
     public List<Person> login(
@@ -49,13 +54,13 @@ public class PersonController {
     }
 
     @PutMapping("/{id}/setFollows/{idFollows}")
-    Person setFollows(@PathVariable Long IDPerson, @PathVariable Long IDFollows) {
+    Person setFollows(@PathVariable Long id, @PathVariable Long idFollows) {
+    	System.out.println(id);
 
-
-        Person followsPerson = personRepository.findById(IDFollows).orElse(null);
+        Person followsPerson = personRepository.findById(idFollows).orElse(null);
         //some exception handling whatever
 
-        return personRepository.findById(IDPerson)
+        return personRepository.findById(id)
                 .map(person -> {
                     person.addFollows(followsPerson);
                     return personRepository.save(person);

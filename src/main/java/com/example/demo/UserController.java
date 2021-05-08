@@ -5,27 +5,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/persons")
-public class PersonController {
+@RequestMapping("/users")
+public class UserController {
 
-    private final PersonRepository personRepository;
-    public PersonController(PersonRepository personRepository){
-        this.personRepository = personRepository;
+    private final UserRepository userRepository;
+    public UserController(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     @GetMapping
     public Iterable<User> findAll(){
-        return personRepository.findAll();
+        return userRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public User find(@PathVariable long id){
-        return personRepository.findById(id).orElse(null);
+        //long lg = 123;
+        //return new User(lg, "firstName", "lastName", "user", "pwd");
+        return userRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/{id}/follows")
-    public User getFollows(@PathVariable long id){
-        return  personRepository.findById(id).orElse(null);
+    public List<User> getFollows(@PathVariable long id){
+        return  userRepository.getAllById(id);
+        //return  userRepository.findById(id).orElse(null);
     }
 /*
     @GetMapping("/{id}/followedBy")
@@ -38,31 +41,31 @@ public class PersonController {
     public List<User> login(
             @RequestParam(required = false, name = "user") String name1,
             @RequestParam(required = false, name = "pwd") String name2) {
-        return personRepository.findByUserAndPwd(name1,name2);
+        return userRepository.findByUserAndPwd(name1,name2);
     }
 
-    @PostMapping("/addPerson")
-    public User addPerson(@RequestBody User newUser) {
+    @PostMapping("/addUser")
+    public User addUser(@RequestBody User newUser) {
         System.out.println("hallo");
-        return personRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 
     @DeleteMapping("/deleteAll")
-    public void deleteAllPersons() {
-        personRepository.deleteAll();
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
     @PutMapping("/{id}/setFollows/{idFollows}")
     User setFollows(@PathVariable Long id, @PathVariable Long idFollows) {
     	System.out.println(id);
 
-        User followsUser = personRepository.findById(idFollows).orElse(null);
+        User followsUser = userRepository.findById(idFollows).orElse(null);
         //some exception handling whatever
 
-        return personRepository.findById(id)
+        return userRepository.findById(id)
                 .map(user -> {
                     user.addFollows(followsUser);
-                    return personRepository.save(user);
+                    return userRepository.save(user);
                 }).orElse(null);
 
     }
@@ -86,7 +89,7 @@ public class PersonController {
     }*/
 
     @DeleteMapping("/{id}")
-    void deletePerson(@PathVariable Long id) {
-        personRepository.deleteById(id);
+    void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
     }
 }

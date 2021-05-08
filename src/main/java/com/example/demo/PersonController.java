@@ -3,7 +3,6 @@ package com.example.demo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/persons")
@@ -15,17 +14,17 @@ public class PersonController {
     }
 
     @GetMapping
-    public Iterable<Person> findAll(){
+    public Iterable<User> findAll(){
         return personRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Person find(@PathVariable long id){
+    public User find(@PathVariable long id){
         return personRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/{id}/follows")
-    public Person getFollows(@PathVariable long id){
+    public User getFollows(@PathVariable long id){
         return  personRepository.findById(id).orElse(null);
     }
 /*
@@ -36,16 +35,16 @@ public class PersonController {
 */
     @GetMapping("/login")
     @ResponseBody
-    public List<Person> login(
+    public List<User> login(
             @RequestParam(required = false, name = "user") String name1,
             @RequestParam(required = false, name = "pwd") String name2) {
         return personRepository.findByUserAndPwd(name1,name2);
     }
 
     @PostMapping("/addPerson")
-    public Person addPerson(@RequestBody Person newPerson) {
+    public User addPerson(@RequestBody User newUser) {
         System.out.println("hallo");
-        return personRepository.save(newPerson);
+        return personRepository.save(newUser);
     }
 
     @DeleteMapping("/deleteAll")
@@ -54,16 +53,16 @@ public class PersonController {
     }
 
     @PutMapping("/{id}/setFollows/{idFollows}")
-    Person setFollows(@PathVariable Long id, @PathVariable Long idFollows) {
+    User setFollows(@PathVariable Long id, @PathVariable Long idFollows) {
     	System.out.println(id);
 
-        Person followsPerson = personRepository.findById(idFollows).orElse(null);
+        User followsUser = personRepository.findById(idFollows).orElse(null);
         //some exception handling whatever
 
         return personRepository.findById(id)
-                .map(person -> {
-                    person.addFollows(followsPerson);
-                    return personRepository.save(person);
+                .map(user -> {
+                    user.addFollows(followsUser);
+                    return personRepository.save(user);
                 }).orElse(null);
 
     }

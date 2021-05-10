@@ -46,7 +46,6 @@ public class UserController {
 
     @PostMapping("/addUser")
     public User addUser(@RequestBody User newUser) {
-        System.out.println("hallo");
         return userRepository.save(newUser);
     }
 
@@ -70,23 +69,25 @@ public class UserController {
 
     }
 
-/*    @PutMapping("/{id}")
-    Person replacePerson(@RequestBody Person newPerson, @PathVariable Long id) {
+    //Delete follow implementieren
 
-        return personRepository.findById(id)
+    @PutMapping("/change/{id}")
+    User replacePerson(@RequestBody User newPerson, @PathVariable Long id) {
+
+        return userRepository.findById(id)
                 .map(person -> {
 //        person.setName(newPerson.getName());
                     person.setFirstName(newPerson.getFirstName());
                     person.setLastName(newPerson.getLastName());
                     person.setUser(newPerson.getUser());
                     person.setPwd(newPerson.getPwd());
-                    return personRepository.save(person);
+                    return userRepository.save(person);
                 })
                 .orElseGet(() -> {
                     newPerson.setId(id);
-                    return personRepository.save(newPerson);
+                    return userRepository.save(newPerson);
                 });
-    }*/
+    }
 
     @DeleteMapping("/{id}")
     void deleteUser(@PathVariable Long id) {

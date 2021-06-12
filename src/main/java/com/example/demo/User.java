@@ -19,18 +19,18 @@ public class User {
     //  private String name;
     private String firstName;
     private String lastName;
-    private String user;
+    private String userName;
     private String pwd;
 
     public User() {
 
     }
 
-    public User(Long id, String firstName, String lastName, String user, String pwd) {
+    public User(Long id, String firstName, String lastName, String userName, String pwd) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.user = user;
+        this.userName = userName;
         this.pwd = pwd;
     }
 
@@ -72,12 +72,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String user) {
+        this.userName = user;
     }
 
     public String getPwd() {

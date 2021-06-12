@@ -36,12 +36,20 @@ public class UserController {
         return  personRepository.findById(id).orElse(null);
     }
 */
+
+    @GetMapping("/{username}/{pwd}")
+    @ResponseBody
+    public boolean existsByUserNameAndPwd(String username, String pwd) {
+        return userRepository.existsByUserNameAndPwd(username, pwd);
+    }
+
+
     @GetMapping("/login")
     @ResponseBody
     public List<User> login(
-            @RequestParam(required = false, name = "user") String name1,
+            @RequestParam(required = false, name = "userName") String name1,
             @RequestParam(required = false, name = "pwd") String name2) {
-        return userRepository.findByUserAndPwd(name1,name2);
+        return userRepository.findByUserNameAndPwd(name1,name2);
     }
 
     @PostMapping("/addUser")
@@ -79,7 +87,7 @@ public class UserController {
 //        person.setName(newPerson.getName());
                     person.setFirstName(newPerson.getFirstName());
                     person.setLastName(newPerson.getLastName());
-                    person.setUser(newPerson.getUser());
+                    person.setUserName(newPerson.getUserName());
                     person.setPwd(newPerson.getPwd());
                     return userRepository.save(person);
                 })

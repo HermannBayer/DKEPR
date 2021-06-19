@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
@@ -96,7 +97,8 @@ public class User {
 		this.followedBy = followedBy;
 	}
 */
-	public void setFollows(Set<User> follows) {
-		this.follows = follows;
+	public void setFollows(List<User> follows) {
+		this.follows = (Set)follows;
 	}
+
 }

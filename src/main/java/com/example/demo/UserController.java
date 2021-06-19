@@ -2,7 +2,9 @@ package com.example.demo;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -18,8 +20,13 @@ public class UserController {
         return userRepository.findAll();
     }
 
+   @GetMapping("/{username}")
+    List<User> getUsersByUsername(@PathVariable String username){
+        return userRepository.findUsersByUserNameContaining(username);
+    }
+
     @GetMapping("/{id}")
-    public User find(@PathVariable long id){
+    public User getUserById(@PathVariable long id){
         //long lg = 123;
         //return new User(lg, "firstName", "lastName", "user", "pwd");
         return userRepository.findById(id).orElse(null);
@@ -30,12 +37,23 @@ public class UserController {
         return  userRepository.getAllById(id);
         //return  userRepository.findById(id).orElse(null);
     }
-/*
-    @GetMapping("/{id}/followedBy")
-    public Person getFollowedBy(@PathVariable long id){
-        return  personRepository.findById(id).orElse(null);
+
+    public List<User> getFollowing(@PathVariable long id){
+        return  userRepository.getAllById(id);
+        //return  userRepository.findById(id).orElse(null);
     }
-*/
+
+    @GetMapping("/{id}/followedBy")
+    public List<User> getFollowedBy(@PathVariable long id){
+        return userRepository.getUserBy(id);
+        //return  userRepository.findById(id).orElse(null);
+    }
+
+    public List<User> getFollowers(@PathVariable long id){
+        return userRepository.getUserBy(id);
+        //return  userRepository.findById(id).orElse(null);
+    }
+
 
     @GetMapping("/{username}/{pwd}")
     @ResponseBody
@@ -53,7 +71,7 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public User addUser(@RequestBody User newUser) {
+    public User createUser(@RequestBody User newUser) {
         return userRepository.save(newUser);
     }
 
@@ -77,10 +95,28 @@ public class UserController {
 
     }
 
+
+    public void addFollower(User userToFollow, User follower) {
+        Optional<User> u = userRepository.findById(userToFollow.getId());
+        if (u.isEmpty()) return;
+        Optional<User> uFollower = userRepository.findById(follower.getId());
+        if (uFollower.isEmpty()) return;
+        if ( getFollowedBy(userToFollow.getId()) == null) {
+            List<User> newFollowList = new ArrayList<>();
+            newFollowList.add(follower);
+            userToFollow.setFollows(newFollowList);
+        } else {
+            List<User> follows = getFollowedBy(userToFollow.getId());
+            follows.add(follower);
+        }
+        userRepository.save(userToFollow);
+    }
+
+
     //Delete follow implementieren
 
     @PutMapping("/change/{id}")
-    User replacePerson(@RequestBody User newPerson, @PathVariable Long id) {
+    User updateUser(@PathVariable Long id, @RequestBody User newPerson) {
 
         return userRepository.findById(id)
                 .map(person -> {

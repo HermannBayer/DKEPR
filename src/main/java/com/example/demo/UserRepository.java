@@ -11,8 +11,15 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     //User getUserByFirstName(String name);
 
     List<User> findByUserNameAndPwd(@Param("userName") String name1, @Param("pwd") String name2);
+
     @Query("MATCH(User)-->(n) WHERE ID(User) = $idn RETURN n")
     List<User> getAllById(long idn);
+
+    //Follower eingehenden Beziehungen
+    @Query("MATCH(User)<--(n) WHERE ID(User) = $idn RETURN n")
+    List<User> getUserBy(long idn);
+
+    List<User> findUsersByUserNameContaining(String username);
 
     boolean existsByUserNameAndPwd(String username, String pwd);
 }

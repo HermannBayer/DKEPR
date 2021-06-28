@@ -88,7 +88,7 @@ public class UserController {
 
     }
 
-
+/*
     public void addFollower(User userToFollow, User follower) {
         Optional<User> u = userRepository.findById(userToFollow.getId());
         if (u.isEmpty()) return;
@@ -105,9 +105,21 @@ public class UserController {
         userRepository.save(userToFollow);
     }
 
+*/
+    //Delete follow 
+    @DeleteMapping("/{id}/unFollows/{idFollows}")
+    User unFollows(@PathVariable Long id, @PathVariable Long idFollows) {
+        User followsUser = userRepository.findById(idFollows).orElse(null);
+        return userRepository.findById(id)
+               .map(user -> {
+                   user.removeFollows(followsUser);
+                   return userRepository.save(user);
+               }).orElse(null);
+        
 
-    //Delete follow implementieren
+    }
 
+    
     @PutMapping("/change/{id}")
     User updateUser(@PathVariable Long id, @RequestBody User newPerson) {
 

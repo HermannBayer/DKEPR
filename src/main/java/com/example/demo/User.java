@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,14 +41,20 @@ public class User {
     public void addFollows(User user){
         follows.add(user);
     }
+    
+    public void removeFollows(User user){
+    	Set<User> removeCandidates = new HashSet<>();
+    	for(User element : follows)
+    	    if(element.getId() == user.getId())
+    	        removeCandidates.add(element);
+    	follows.removeAll(removeCandidates);    }
+    
 
-/*    public void setFollows(List<User> follows) {
-        this.follows = (Set)follows;
-    }*/
 
     public void setFollows(Set<User> follows) {
         this.follows = follows;
     }
+    
 
     public Set<User> getFollows(){
         return follows;

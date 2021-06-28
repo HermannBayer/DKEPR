@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -9,10 +10,14 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
 
-    private final UserRepository userRepository;
+    @Autowired
+    public UserRepository userRepository;
+    
+
+/*    private final UserRepository userRepository;
     public UserController(UserRepository userRepository){
         this.userRepository = userRepository;
-    }
+    }*/
 
     @GetMapping
     public Iterable<User> findAll(){

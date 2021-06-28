@@ -8,8 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
-    //User getUserByFirstName(String name);
-
     List<User> findByUserNameAndPwd(@Param("userName") String name1, @Param("pwd") String name2);
 
     @Query("MATCH(User)-->(n) WHERE ID(User) = $idn RETURN n")

@@ -27,31 +27,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable long id){
-        //long lg = 123;
-        //return new User(lg, "firstName", "lastName", "user", "pwd");
         return userRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/{id}/follows")
     public List<User> getFollows(@PathVariable long id){
         return  userRepository.getAllById(id);
-        //return  userRepository.findById(id).orElse(null);
     }
 
     public List<User> getFollowing(@PathVariable long id){
         return  userRepository.getAllById(id);
-        //return  userRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/{id}/followedBy")
     public List<User> getFollowedBy(@PathVariable long id){
         return userRepository.getUserBy(id);
-        //return  userRepository.findById(id).orElse(null);
     }
 
     public List<User> getFollowers(@PathVariable long id){
         return userRepository.getUserBy(id);
-        //return  userRepository.findById(id).orElse(null);
     }
 
 
@@ -85,7 +79,6 @@ public class UserController {
     	System.out.println(id);
 
         User followsUser = userRepository.findById(idFollows).orElse(null);
-        //some exception handling whatever
 
         return userRepository.findById(id)
                 .map(user -> {
@@ -120,7 +113,6 @@ public class UserController {
 
         return userRepository.findById(id)
                 .map(person -> {
-//        person.setName(newPerson.getName());
                     person.setFirstName(newPerson.getFirstName());
                     person.setLastName(newPerson.getLastName());
                     person.setUserName(newPerson.getUserName());

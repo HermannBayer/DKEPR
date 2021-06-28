@@ -17,7 +17,6 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    //  private String name;
     private String firstName;
     private String lastName;
     private String userName;
@@ -37,10 +36,7 @@ public class User {
 
     @Relationship(type = "FOLLOWS", direction = OUTGOING)
     private Set<User> follows= new HashSet<>();
-/*
-    @Relationship(type = "FOLLOWS", direction = INCOMING)
-    private Set<Person> followedBy= new HashSet<>();
-*/
+
     public void addFollows(User user){
         follows.add(user);
     }
@@ -88,15 +84,7 @@ public class User {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
-/*
-	public Set<Person> getFollowedBy() {
-		return followedBy;
-	}
 
-	public void setFollowedBy(Set<Person> followedBy) {
-		this.followedBy = followedBy;
-	}
-*/
 	public void setFollows(List<User> follows) {
 		this.follows = (Set)follows;
 	}

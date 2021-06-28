@@ -22,9 +22,9 @@ public class User {
     private String userName;
     private String pwd;
 
-    public User() {
+/*    public User() {
 
-    }
+    }*/
 
     public User(Long id, String firstName, String lastName, String userName, String pwd) {
         this.id = id;
@@ -39,6 +39,14 @@ public class User {
 
     public void addFollows(User user){
         follows.add(user);
+    }
+
+/*    public void setFollows(List<User> follows) {
+        this.follows = (Set)follows;
+    }*/
+
+    public void setFollows(Set<User> follows) {
+        this.follows = follows;
     }
 
     public Set<User> getFollows(){
@@ -84,9 +92,5 @@ public class User {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
-
-	public void setFollows(List<User> follows) {
-		this.follows = (Set)follows;
-	}
 
 }

@@ -2,9 +2,7 @@ package com.example.demo;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users")
@@ -21,34 +19,26 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    //neu
    @GetMapping("/username/{username}")
     User getUsersByUsername(@PathVariable String username){
         User singelUser = userRepository.findByUserName(username);
         return singelUser;
     }
 
-    //neu
     @GetMapping("/id/{id}")
     public List<User> getUserById(@PathVariable long id){
         return userRepository.findUsersByIdContaining(id);
     }
 
+    //outgoing realtions, returns users who are followed current user
     @GetMapping("/{id}/follows")
     public List<User> getFollows(@PathVariable long id){
         return  userRepository.getAllById(id);
     }
 
-    public List<User> getFollowing(@PathVariable long id){
-        return  userRepository.getAllById(id);
-    }
-
+    //incoming relations, returns users who follow current user
     @GetMapping("/{id}/followedBy")
     public List<User> getFollowedBy(@PathVariable long id){
-        return userRepository.getUserBy(id);
-    }
-
-    public List<User> getFollowers(@PathVariable long id){
         return userRepository.getUserBy(id);
     }
 
@@ -70,6 +60,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public User createUser(@RequestBody User newUser) {
+        newUser.setFollows(null);
         return userRepository.save(newUser);
     }
 
@@ -99,7 +90,7 @@ public class UserController {
         Optional<User> uFollower = userRepository.findById(follower.getId());
         if (uFollower.isEmpty()) return;
         if (getFollowedBy(userToFollow.getId()) == null) {
-            List<User> newFollowList = new ArrayList<>();
+            Set<User> newFollowList = new HashSet<>();
             newFollowList.add(follower);
             userToFollow.setFollows(newFollowList);
         } else {

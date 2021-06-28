@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -20,14 +21,17 @@ public class UserController {
         return userRepository.findAll();
     }
 
-   @GetMapping("/{username}")
-    List<User> getUsersByUsername(@PathVariable String username){
-        return userRepository.findUsersByUserNameContaining(username);
+    //neu
+   @GetMapping("/username/{username}")
+    User getUsersByUsername(@PathVariable String username){
+        User singelUser = userRepository.findByUserName(username);
+        return singelUser;
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable long id){
-        return userRepository.findById(id).orElse(null);
+    //neu
+    @GetMapping("/id/{id}")
+    public List<User> getUserById(@PathVariable long id){
+        return userRepository.findUsersByIdContaining(id);
     }
 
     @GetMapping("/{id}/follows")
@@ -94,7 +98,7 @@ public class UserController {
         if (u.isEmpty()) return;
         Optional<User> uFollower = userRepository.findById(follower.getId());
         if (uFollower.isEmpty()) return;
-        if ( getFollowedBy(userToFollow.getId()) == null) {
+        if (getFollowedBy(userToFollow.getId()) == null) {
             List<User> newFollowList = new ArrayList<>();
             newFollowList.add(follower);
             userToFollow.setFollows(newFollowList);
